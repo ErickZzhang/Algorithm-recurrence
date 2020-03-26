@@ -1,3 +1,3 @@
-from GBDT.test.reg_gbdt_test import  reg_gbdt_test
+from xgboost.test.xgboost_test import xgb_reg_test
 
-reg_gbdt_test()
+xgb_reg_test()

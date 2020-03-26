@@ -1,5 +1,7 @@
-from .reg_tree import Regression_Tree
 import numpy as np
+
+from .reg_tree import Regression_Tree
+
 
 class GradientBoostingBase():
     def __init__(self):
@@ -16,6 +18,10 @@ class GradientBoostingBase():
         return y - y_hat
 
     def fit(self, X, y, n_estimators=50, lr=0.1, max_depth=5, min_samples_split=2, subsample=False, initial=None):
+        assert isinstance(X, np.ndarray), len(X.shape)==2
+        assert type(y) == np.ndarray and y.shape[0] == X.shape[0] and len(y.shape) <= 2
+        y = y.flatten()
+        
         if initial:
             if initial == 'zeros':
                 self.initval = 0.
@@ -54,4 +60,3 @@ class GradientBoostingBase():
         for i in range(X.shape[0]):
             pred[i] = self._predict_row(X[i])
         return pred
-
