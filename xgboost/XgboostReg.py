@@ -10,7 +10,7 @@ class XgboostReg():
         self.method = method
 
     def _get_g(self, y, y_hat):
-        return y_hat - y
+        return (y_hat - y)
     
     def _get_h(self, y, y_hat):
         return np.ones(y.shape[0])

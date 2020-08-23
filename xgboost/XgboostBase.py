@@ -38,21 +38,15 @@ class Boost_DTree():
         """
 
         GL, GR, HL, HR = 0., 0., 0., 0.
-        split_sum = [0., 0.]
-        split_count = [0, 0]
         for i in idx:
             if X[i, feature] < split:
                 GL += self.g[i]
                 HL += self.h[i]
-                split_sum[0] += y[i]
-                split_count[0] += 1
             else:
                 GR += self.g[i]
                 HR += self.h[i]
-                split_sum[1] += y[i]
-                split_count[1] += 1
         gain = (GL**2/(HL+self.lam) + GR**2/(HR+self.lam) - (GL+GR)**2/(HR+HL+self.lam))/2 - self.gamma
-        split_avg = [split_sum[0]/split_count[0], split_sum[1]/split_count[1]]
+        split_avg = [-GL/(HL+self.lam), -GR/(HR+self.lam)]
         return gain, split, split_avg
 
     def _choose_split_point(self, X, y, idx, feature):
@@ -84,6 +78,8 @@ class Boost_DTree():
 
         gain, split, split_avg = max((self._cal_split_gain(X, y, idx, split, feature) for split in unique),
                                       key=lambda x: x[0])
+        if gain <= 0:
+            return None
         return gain, split, feature, split_avg
 
     def _choose_split_feature(self, X, y, idx):

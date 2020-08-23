@@ -17,6 +17,7 @@ def xgb_reg_test():
     reg.fit(x, y)
     pred = reg.predict(x)
 
+    temp = reg.trees[0].predict(x)
     # cal R^2拟合优度 goodness of fit
     y_mean = np.mean(y)
     R_2 = np.sum((pred-y_mean)**2) / np.sum((y-y_mean)**2)
